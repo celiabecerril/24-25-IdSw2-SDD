@@ -4,48 +4,56 @@ import java.util.List;
 import java.util.Scanner;
 import modelo.*;
 
-
 public class VistaConsola {
     private Scanner scanner;
-    
+
     public VistaConsola() {
         this.scanner = new Scanner(System.in);
     }
-    
+
     public boolean preguntarContinuar() {
-        System.out.println("Quiere continuar? (s/n)");
-        String respuesta = scanner.nextLine();
-        return respuesta.equalsIgnoreCase("s");
+        while (true) {
+            System.out.println("¿Quiere continuar? (s/n)");
+            String respuesta = scanner.nextLine().trim();
+
+            if (respuesta.equalsIgnoreCase("s")) {
+                return true;
+            } else if (respuesta.equalsIgnoreCase("n")) {
+                return false;
+            } else {
+                System.out.println("Entrada no válida. Por favor, ingrese 's' para sí o 'n' para no.");
+            }
+        }
     }
-    
+
     public void mostrarMensajePersonaGenerada(int destino) {
         System.out.println("Persona generada con destino a planta " + destino);
     }
-    
+
     public void mostrarHora(String hora) {
         System.out.println(hora);
     }
-    
-    public void mostrarEstadoUniversidad(Tiempo tiempo, List<Planta> plantas, 
+
+    public void mostrarEstadoUniversidad(Tiempo tiempo, List<Planta> plantas,
                                          List<Ascensor> ascensores, int plantaMinima, int plantaMaxima) {
         mostrarCabeceraEstado(tiempo);
         mostrarEstadoPlantas(plantas, ascensores, plantaMinima, plantaMaxima);
         mostrarPieEstado();
     }
-    
+
     private void mostrarCabeceraEstado(Tiempo tiempo) {
         System.out.println(tiempo.darLaHora());
         System.out.println("     Personas                     Personas");
         System.out.println("     esperando                    en la planta\n");
     }
-    
-    private void mostrarEstadoPlantas(List<Planta> plantas, List<Ascensor> ascensores, 
+
+    private void mostrarEstadoPlantas(List<Planta> plantas, List<Ascensor> ascensores,
                                       int plantaMinima, int plantaMaxima) {
         for (int i = plantaMaxima; i >= plantaMinima; i--) {
             mostrarEstadoPlanta(i, plantas, ascensores);
         }
     }
-    
+
     private void mostrarEstadoPlanta(int plantaNumero, List<Planta> plantas, List<Ascensor> ascensores) {
         StringBuilder linea = new StringBuilder();
 
@@ -61,7 +69,7 @@ public class VistaConsola {
 
         System.out.println(linea.toString());
     }
-    
+
     private int obtenerCantidadEsperando(int plantaNumero, List<Planta> plantas) {
         for (Planta planta : plantas) {
             if (planta.getNumero() == plantaNumero) {
@@ -70,7 +78,7 @@ public class VistaConsola {
         }
         return 0;
     }
-    
+
     private int obtenerCantidadEnPlanta(int plantaNumero, List<Planta> plantas) {
         for (Planta planta : plantas) {
             if (planta.getNumero() == plantaNumero) {
@@ -79,7 +87,7 @@ public class VistaConsola {
         }
         return 0;
     }
-    
+
     private void agregarEstadoAscensores(StringBuilder linea, int plantaNumero, List<Ascensor> ascensores) {
         for (Ascensor ascensor : ascensores) {
             if (ascensor.getPlantaActualAsInt() == plantaNumero) {
@@ -89,15 +97,15 @@ public class VistaConsola {
             }
         }
     }
-    
+
     private void mostrarPieEstado() {
         System.out.println("       /--------- Ascensores ------/");
     }
-    
+
     public void mostrarUniversidadCerrada() {
         System.out.println("La universidad está cerrada.");
     }
-    
+
     public void mostrarEstadoAscensor(String id, int planta, int personas) {
         System.out.println("Ascensor " + id + " en planta " + planta + ", personas: " + personas);
     }
