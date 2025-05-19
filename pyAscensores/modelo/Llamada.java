@@ -1,4 +1,4 @@
-package modelo;
+package pyAscensores.modelo;
 
 public class Llamada {
     private int plantaOrigen;
@@ -11,24 +11,12 @@ public class Llamada {
         this.persona = persona;
     }
 
-    public void setPlantaOrigen(int plantaOrigen) {
-        this.plantaOrigen = plantaOrigen;
+    public int getPlantaOrigen() {
+        return plantaOrigen;
     }
 
     public int getPlantaDestino() {
         return plantaDestino;
-    }
-
-    public void setPlantaDestino(int plantaDestino) {
-        this.plantaDestino = plantaDestino;
-    }
-
-    public void setPersona(Persona persona) {
-        this.persona = persona;
-    }
-
-    public int getPlantaOrigen() {
-        return plantaOrigen;
     }
 
     public Persona getPersona() {
