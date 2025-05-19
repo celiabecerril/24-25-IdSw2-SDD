@@ -9,8 +9,8 @@ public class Planta {
 
     public Planta(int numero) {
         this.numero = numero;
-        this.esperando = new LinkedList<>();
-        this.enPlanta = new ArrayList<>();
+        esperando = new LinkedList<>();
+        enPlanta = new ArrayList<>();
     }
 
     public int getNumero() {
@@ -25,7 +25,15 @@ public class Planta {
         return enPlanta;
     }
 
-    public void personaEsperaAscensor(Persona persona) {
-        esperando.add(persona);
+    public void personaEsperaAscensor(Persona p) {
+        esperando.add(p);
+    }
+
+    public int getCantidadEsperando() {
+        return esperando.size();
+    }
+
+    public int getCantidadEnPlanta() {
+        return enPlanta.size();
     }
 }

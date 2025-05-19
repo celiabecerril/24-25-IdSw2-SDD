@@ -10,20 +10,14 @@ public class ControlAscensor {
         this.ascensores = ascensores;
     }
 
-    public void procesarLlamada(Persona persona, int origen, int destino) {
-        Ascensor mejor = seleccionarMejorAscensor(origen);
-        mejor.atenderLlamada(new Llamada(origen, destino, persona));
-    }
-
-    private Ascensor seleccionarMejorAscensor(int planta) {
-        return ascensores.stream()
-                .min(Comparator.comparingInt(a -> Math.abs(a.getPlantaActual() - planta)))
+    public void procesarLlamada(Persona p, int origen, int destino) {
+        Ascensor elegido = ascensores.stream()
+                .min(Comparator.comparingInt(a -> Math.abs(a.getPlantaActual() - origen)))
                 .orElse(ascensores.get(0));
+        elegido.atenderLlamada(new Llamada(origen, destino, p));
     }
 
     public void moverAscensores() {
-        for (Ascensor a : ascensores) {
-            a.mover();
-        }
+        ascensores.forEach(Ascensor::mover);
     }
 }

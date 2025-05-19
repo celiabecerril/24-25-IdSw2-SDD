@@ -5,16 +5,13 @@ import java.util.*;
 public class Ascensor {
     private static final int CAPACIDAD = 6;
     private String id;
-    private int plantaActual;
-    private List<Persona> personas;
-    private Queue<Llamada> llamadas;
+    private int plantaActual = 0;
+    private List<Persona> personas = new ArrayList<>();
+    private Queue<Llamada> llamadas = new LinkedList<>();
     private List<Planta> plantas;
 
     public Ascensor(String id) {
         this.id = id;
-        this.plantaActual = 0;
-        this.personas = new ArrayList<>();
-        this.llamadas = new LinkedList<>();
     }
 
     public void asignarPlantas(List<Planta> plantas) {
@@ -26,37 +23,30 @@ public class Ascensor {
     }
 
     public void mover() {
-        bajarPersonas();
-        recogerPersonas();
+        bajar();
+        recoger();
 
-        if (!personas.isEmpty()) {
+        if (!personas.isEmpty())
             moverHacia(personas.get(0).getPlantaDestino());
-        } else if (!llamadas.isEmpty()) {
+        else if (!llamadas.isEmpty())
             moverHacia(llamadas.peek().getPlantaOrigen());
-        }
     }
 
     private void moverHacia(int destino) {
-        if (plantaActual != destino) {
-            plantaActual += Integer.compare(destino, plantaActual);
-        } else if (!llamadas.isEmpty() && llamadas.peek().getPlantaOrigen() == plantaActual) {
-            recogerPersonas();
-        }
+        plantaActual += Integer.compare(destino, plantaActual);
     }
 
-    private void bajarPersonas() {
-        List<Persona> bajan = new ArrayList<>();
-        for (Persona p : personas) {
+    private void bajar() {
+        personas.removeIf(p -> {
             if (p.getPlantaDestino() == plantaActual) {
-                bajan.add(p);
-                Planta planta = plantas.get(plantaActual + 3);
-                planta.getEnPlanta().add(p);
+                plantas.get(plantaActual + 3).getEnPlanta().add(p);
+                return true;
             }
-        }
-        personas.removeAll(bajan);
+            return false;
+        });
     }
 
-    private void recogerPersonas() {
+    private void recoger() {
         Planta planta = plantas.get(plantaActual + 3);
         Iterator<Persona> it = planta.getEsperando().iterator();
         while (it.hasNext() && personas.size() < CAPACIDAD) {
