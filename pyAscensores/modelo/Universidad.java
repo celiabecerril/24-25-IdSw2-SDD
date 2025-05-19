@@ -2,12 +2,17 @@ package pyAscensores.modelo;
 
 import java.util.*;
 
+import pyAscensores.controlador.ControlAscensor;
+
 public class Universidad {
+
+    private static final double PROBABILIDAD_INGRESO = 0.8;
     private List<Planta> plantas;
     private List<Ascensor> ascensores;
     private ControlAscensor control;
     private Tiempo tiempo;
     private final Random random = new Random();
+    private int totalPersonasIngresadas = 0;
 
     public Universidad(Tiempo tiempo) {
         this.tiempo = tiempo;
@@ -31,7 +36,7 @@ public class Universidad {
     }
 
     public void generarLlegadas() {
-        if (random.nextDouble() < 0.3) {
+        if (random.nextDouble() < PROBABILIDAD_INGRESO) {
             int destino;
             do {
                 destino = random.nextInt(7) - 3;
@@ -40,6 +45,7 @@ public class Universidad {
             Persona persona = new Persona(destino);
             plantas.get(3).personaEsperaAscensor(persona);
             control.procesarLlamada(persona, 0, destino);
+            totalPersonasIngresadas++;
         }
     }
 
@@ -64,8 +70,7 @@ public class Universidad {
             }
         }
 
-        // Eliminar personas que han llegado a planta 0 y deben desaparecer
-        Planta plantaCero = plantas.get(3); // planta 0 en índice 3
+        Planta plantaCero = plantas.get(3);
         Iterator<Persona> itCero = plantaCero.getEnPlanta().iterator();
         while (itCero.hasNext()) {
             Persona persona = itCero.next();
@@ -76,22 +81,35 @@ public class Universidad {
     }
 
     public void actualizarEstado() {
+        // Garantiza que si alguien está en planta != 0, solicite salida
+        for (Planta planta : plantas) {
+            if (planta.getNumero() != 0) {
+                List<Persona> paraSalir = new ArrayList<>();
+                for (Persona p : planta.getEnPlanta()) {
+                    if (!p.debeSalir()) {
+                        p.marcarSalida();
+                        paraSalir.add(p);
+                    }
+                }
+                planta.getEnPlanta().removeAll(paraSalir);
+                for (Persona p : paraSalir) {
+                    planta.getEsperando().add(p);
+                    control.procesarLlamada(p, planta.getNumero(), 0);
+                }
+            }
+        }
         control.moverAscensores();
-    }
-
-    public List<Planta> getPlantas() {
-        return plantas;
-    }
-
-    public List<Ascensor> getAscensores() {
-        return ascensores;
     }
 
     public boolean todosSeFueron() {
         boolean plantasVacias = plantas.stream()
-                .allMatch(p -> p.getCantidadEsperando() == 0 && p.getCantidadEnPlanta() == 0);
+            .allMatch(p -> p.getCantidadEsperando() == 0 && p.getCantidadEnPlanta() == 0);
         boolean ascensoresVacios = ascensores.stream()
-                .allMatch(a -> a.getCantidadPersonas() == 0);
+            .allMatch(a -> a.getCantidadPersonas() == 0);
         return plantasVacias && ascensoresVacios;
     }
+
+    public List<Planta> getPlantas() { return plantas; }
+    public List<Ascensor> getAscensores() { return ascensores; }
+    public int getTotalPersonasIngresadas() { return totalPersonasIngresadas; }
 }

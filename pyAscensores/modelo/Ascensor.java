@@ -9,6 +9,7 @@ public class Ascensor {
     private List<Persona> personas = new ArrayList<>();
     private Queue<Llamada> llamadas = new LinkedList<>();
     private List<Planta> plantas;
+    private int totalTransportadas = 0;
 
     public Ascensor(String id) {
         this.id = id;
@@ -52,6 +53,7 @@ public class Ascensor {
         while (it.hasNext() && personas.size() < CAPACIDAD) {
             Persona p = it.next();
             personas.add(p);
+            totalTransportadas++;
             it.remove();
             llamadas.removeIf(l -> l.getPersona() == p);
         }
@@ -67,5 +69,9 @@ public class Ascensor {
 
     public int getCantidadPersonas() {
         return personas.size();
+    }
+
+    public int getTotalTransportadas() {
+        return totalTransportadas;
     }
 }

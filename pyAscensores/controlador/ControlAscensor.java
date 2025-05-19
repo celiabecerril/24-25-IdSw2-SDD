@@ -1,7 +1,11 @@
-package pyAscensores.modelo;
+package pyAscensores.controlador;
 
 import java.util.Comparator;
 import java.util.List;
+
+import pyAscensores.modelo.Ascensor;
+import pyAscensores.modelo.Llamada;
+import pyAscensores.modelo.Persona;
 
 public class ControlAscensor {
     private List<Ascensor> ascensores;
