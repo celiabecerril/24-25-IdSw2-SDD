@@ -7,7 +7,6 @@ import modelo.Ascensor;
 import modelo.Llamada;
 import modelo.Persona;
 
-
 public class ControlAscensor {
     private List<Ascensor> ascensores;
 
@@ -19,7 +18,11 @@ public class ControlAscensor {
         Ascensor elegido = ascensores.stream()
             .min(Comparator.comparingInt(a -> Math.abs(a.getPlantaActual() - origen)))
             .orElse(ascensores.get(0));
-        elegido.atenderLlamada(new Llamada(origen, destino, p));
+
+        boolean yaExiste = elegido.tieneLlamadaPara(p);
+        if (!yaExiste) {
+            elegido.atenderLlamada(new Llamada(origen, destino, p));
+        }
     }
 
     public void moverAscensores() {

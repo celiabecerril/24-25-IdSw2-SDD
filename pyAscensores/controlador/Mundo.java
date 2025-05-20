@@ -6,7 +6,8 @@ import  vista.ConsolaVista;
 
 
 public class Mundo {
-    public static final int HORA_INICIO_DIA = 8;
+    public static final int DIA = 1;
+    public static final int HORA_INICIO = 8;
     public static final int MINUTO_INICIO = 30;
     public static final long PAUSA_SIMULACION_MS = 200;
 
@@ -15,7 +16,7 @@ public class Mundo {
     private ConsolaVista vista;
 
     public Mundo() {
-        this.tiempo = new Tiempo(1, HORA_INICIO_DIA, MINUTO_INICIO);
+        this.tiempo = new Tiempo(DIA, HORA_INICIO, MINUTO_INICIO);
         this.universidad = new Universidad(tiempo);
         this.vista = new ConsolaVista();
     }
@@ -30,7 +31,7 @@ public class Mundo {
             }
             universidad.actualizarEstancias();
             universidad.actualizarEstado();
-            vista.mostrarEstado(universidad.getPlantas(), universidad.getAscensores(), tiempo);
+            vista.mostrarEstado(universidad.getPlantas(), universidad.getAscensores(), tiempo, universidad);
             if (tiempo.getHora() == Tiempo.HORA_CIERRE) {
                 vista.mostrarTotalesFinales(universidad);
             }

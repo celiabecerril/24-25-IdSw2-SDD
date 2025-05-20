@@ -11,7 +11,8 @@ public class Persona {
     public Persona(int destino) {
         this.destino = destino;
         this.quiereSalir = false;
-        this.tiempoRestante = MIN_TIEMPO_ESTANCIA + (int)(Math.random() * (MAX_TIEMPO_ESTANCIA - MIN_TIEMPO_ESTANCIA + 1));
+        this.tiempoRestante = MIN_TIEMPO_ESTANCIA
+                + (int) (Math.random() * (MAX_TIEMPO_ESTANCIA - MIN_TIEMPO_ESTANCIA + 1));
     }
 
     public int getPlantaDestino() {
@@ -19,8 +20,10 @@ public class Persona {
     }
 
     public void decrementarTiempo() {
-        if (tiempoRestante > 0) tiempoRestante--;
-        if (tiempoRestante <= 0 && destino != Piso.INGRESO) quiereSalir = true;
+        if (tiempoRestante > 0)
+            tiempoRestante--;
+        if (tiempoRestante <= 0 && destino != Piso.INGRESO)
+            quiereSalir = true;
     }
 
     public boolean debeSalir() {
