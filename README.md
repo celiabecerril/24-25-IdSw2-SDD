@@ -18,13 +18,13 @@ Este proyecto simula el funcionamiento de ascensores en una universidad, gestion
 
 ### Diagrama de Clases
 
-![Diagrama de Clases]() [Ver Código ]()
+![Diagrama de Clases](images/MdD/DdC/DdC.svg) [Ver Código ](modelosUML/MdD/DdC/DdC.puml)
 
 ### Diagrama de Objetos
 
-![Diagrama de Objetos]() [Ver Código ]()
+![Diagrama de Objetos](images/MdD/DiagramaDeObjetos/DiagramaObjetos.svg) [Ver Código ](modelosUML/MdD/DiagramaObjetos/DiagramaObjetos.puml)
 
 ### Diagrama de Estados (Persona)
 
-![Diagrama de Estados Persona]() [Ver Código ]()
+![Diagrama de Estados Persona](images/MdD/DiagramaEstados/DiagramaEstadosPersona.svg) [Ver Código ](modelosUML/MdD/DiagramaEstados/DiagramaEstadosPersona.puml)
 
