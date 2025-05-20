@@ -1,80 +1,33 @@
-@startuml DdC
-
-hide circle
+@startuml
+' =========================
+' Diagrama de Objetos
+' =========================
 hide empty members
-
-class Mundo {
-+ horario: "12:40"
-}
-
-class Universidad {
-    + capacidad: "30"
-}
-
-class Persona {
-    + nombre: "Paco"
-    + deseaIr: "2"
-}
-
-class Ascensor {
-    + capacidad: "3"
-    + plantaActual: "-1"
-    + movimiento: "ascendente"
-}
-
-class Planta {
-    + numero: "0"
-}
-
-Mundo *-- Persona : genera
-Mundo *-- Universidad : crea
-
-Universidad *-- Planta : contiene
-Universidad o-- Persona : acoge
-Universidad *-- Ascensor : posee
-
-Persona o-- Ascensor : utiliza
-Ascensor -- Planta : comunica
-Persona o-- Planta : está en
-
-@enduml
-@startuml DdC
-
 hide circle
-hide empty members
+skinparam objectFontSize 12
 
-class Mundo {
-+ horario: "12:40"
+object Planta_Menos3 {
+  numero = -3
+  esperando = [Persona_Alice]
+  enPlanta = []
+}
+object Persona_Alice {
+  destino = 0
+  tiempoRestante = 0
+  quiereSalir = false
+}
+object Llamada_Alice {
+  origen = -3
+  persona = Persona_Alice
+}
+object Ascensor_A1 {
+  id = "A1"
+  plantaActual = -3
+  personas = []
+  llamadas = [Llamada_Alice]
 }
 
-class Universidad {
-    + capacidad: "30"
-}
-
-class Persona {
-    + nombre: "Paco"
-    + deseaIr: "2"
-}
-
-class Ascensor {
-    + capacidad: "3"
-    + plantaActual: "-1"
-    + movimiento: "ascendente"
-}
-
-class Planta {
-    + numero: "0"
-}
-
-Mundo *-- Persona : genera
-Mundo *-- Universidad : crea
-
-Universidad *-- Planta : contiene
-Universidad o-- Persona : acoge
-Universidad *-- Ascensor : posee
-
-Persona o-- Ascensor : utiliza
-Ascensor -- Planta : comunica
-Persona o-- Planta : está en
-
+Planta_Menos3 --> Persona_Alice
+Persona_Alice --> Llamada_Alice
+Llamada_Alice --> Ascensor_A1
 @enduml
