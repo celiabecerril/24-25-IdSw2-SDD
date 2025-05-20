@@ -1,12 +1,8 @@
-// File: modelo/Universidad.java
 package modelo;
 
 import java.util.*;
 import controlador.ControlAscensor;
 
-/**
- * Gestiona la simulación de llegadas y salidas en la universidad.
- */
 public class Universidad {
     public static final double PROBABILIDAD_INGRESO = 0.8;
     private static final int PLANTA_MIN = Piso.MIN_PISO;
@@ -27,11 +23,10 @@ public class Universidad {
             plantas.add(new Planta(i));
         }
         ascensores = Arrays.asList(
-            new Ascensor("A1"),
-            new Ascensor("A2"),
-            new Ascensor("A3"),
-            new Ascensor("A4")
-        );
+                new Ascensor("A1"),
+                new Ascensor("A2"),
+                new Ascensor("A3"),
+                new Ascensor("A4"));
         control = new ControlAscensor(ascensores);
         asignarPlantas();
     }
@@ -76,7 +71,6 @@ public class Universidad {
                 control.procesarLlamada(p, planta.getNumero(), Piso.INGRESO);
             });
         }
-        // Limpieza de quienes ya han salido de planta 0
         Planta p0 = plantas.get(INDICE_PLANTA_CERO);
         p0.getEnPlanta().removeIf(Persona::haSalido);
     }
@@ -85,55 +79,51 @@ public class Universidad {
         control.moverAscensores();
     }
 
-
-public void actualizarEstado() {
-    // 1) Si es la hora de cierre, convierto a TODOS en llamadas al ascensor
-    if (tiempo.getHora() == Tiempo.HORA_CIERRE) {
-        for (Planta planta : plantas) {
-            // a) Personas que están en la planta: marco destino=0 y las pongo en la cola
-            List<Persona> enPlanta = new ArrayList<>(planta.getEnPlanta());
-            for (Persona p : enPlanta) {
-                p.marcarSalida();                            // destino→0
-                planta.getEnPlanta().remove(p);
-                planta.getEsperando().add(p);
-            }
-            // b) Personas que ya estaban esperando: actualizo su llamada
-            Queue<Persona> cola = planta.getEsperando();
-            for (Persona p : new ArrayList<>(cola)) {
-                control.procesarLlamada(p, planta.getNumero(), Piso.INGRESO);
-                // NO quito de la cola; el ascensor las recogerá y luego se limpiará en bajar()
+    public void actualizarEstado() {
+        if (!estaAbierta()) {
+            for (Planta planta : plantas) {
+                List<Persona> enPlanta = new ArrayList<>(planta.getEnPlanta());
+                for (Persona p : enPlanta) {
+                    p.marcarSalida();
+                    planta.getEnPlanta().remove(p);
+                    planta.getEsperando().add(p);
+                }
+                for (Persona p : new ArrayList<>(planta.getEsperando())) {
+                    control.procesarLlamada(p, planta.getNumero(), Piso.INGRESO);
+                }
             }
         }
-        // 2) Muevo los ascensores para evacuar de verdad
+
         control.moverAscensores();
-        return;
     }
-
-    // Lógica normal (antes del cierre)…
-    for (Planta planta : plantas) {
-        if (planta.getNumero() != Piso.INGRESO) {
-            List<Persona> copia = new ArrayList<>(planta.getEnPlanta());
-            for (Persona p : copia) {
-                p.marcarSalida();
-                planta.getEnPlanta().remove(p);
-                planta.getEsperando().add(p);
-                control.procesarLlamada(p, planta.getNumero(), Piso.INGRESO);
-            }
-        }
-    }
-    control.moverAscensores();
-}
-
 
     public boolean todosSeFueron() {
-        boolean plantasVacias = plantas.stream()
-            .allMatch(p -> p.getCantidadEsperando() == 0 && p.getCantidadEnPlanta() == 0);
-        boolean ascensoresVacios = ascensores.stream()
-            .allMatch(a -> a.getCantidadPersonas() == 0);
-        return plantasVacias && ascensoresVacios;
+        return contarPersonasDentro() == 0;
     }
 
-    public List<Planta> getPlantas() { return plantas; }
-    public List<Ascensor> getAscensores() { return ascensores; }
-    public int getTotalPersonasIngresadas() { return totalPersonasIngresadas; }
+    public int contarPersonasDentro() {
+        int enPlantas = plantas.stream()
+                .mapToInt(p -> p.getCantidadEsperando() + p.getCantidadEnPlanta())
+                .sum();
+        int enAscensores = ascensores.stream()
+                .mapToInt(Ascensor::getCantidadPersonas)
+                .sum();
+        return enPlantas + enAscensores;
+    }
+
+    public List<Planta> getPlantas() {
+        return plantas;
+    }
+
+    public List<Ascensor> getAscensores() {
+        return ascensores;
+    }
+
+    public int getTotalPersonasIngresadas() {
+        return totalPersonasIngresadas;
+    }
+
+    public int getPersonasDentro() {
+        return contarPersonasDentro();
+    }
 }

@@ -80,4 +80,8 @@ public class Ascensor {
     public int getTotalTransportadas() {
         return totalTransportadas;
     }
+
+    public boolean tieneLlamadaPara(Persona p) {
+    return llamadas.stream().anyMatch(l -> l.getPersona().equals(p));
+}
 }

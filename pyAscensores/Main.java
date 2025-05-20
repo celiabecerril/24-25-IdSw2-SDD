@@ -1,5 +1,3 @@
-
-
 import controlador.Mundo;
 
 public class Main {

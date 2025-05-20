@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.*;
+
 public class Planta {
     private int numero;
     private Queue<Persona> esperando = new LinkedList<>();
