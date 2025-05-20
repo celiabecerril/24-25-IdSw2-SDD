@@ -7,8 +7,8 @@ import  vista.ConsolaVista;
 
 public class Mundo {
     public static final int DIA = 1;
-    public static final int HORA_INICIO = 19;
-    public static final int MINUTO_INICIO = 30;
+    public static final int HORA_INICIO = 8;
+    public static final int MINUTO_INICIO = 50;
     public static final long PAUSA_SIMULACION_MS = 200;
 
     private Tiempo tiempo;
