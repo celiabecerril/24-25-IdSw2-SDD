@@ -1,16 +1,13 @@
-package pyAscensores.modelo;
+package modelo;
 
 import java.util.*;
-
 public class Planta {
     private int numero;
-    private Queue<Persona> esperando;
-    private List<Persona> enPlanta;
+    private Queue<Persona> esperando = new LinkedList<>();
+    private List<Persona> enPlanta = new ArrayList<>();
 
     public Planta(int numero) {
         this.numero = numero;
-        esperando = new LinkedList<>();
-        enPlanta = new ArrayList<>();
     }
 
     public int getNumero() {
@@ -35,5 +32,10 @@ public class Planta {
 
     public int getCantidadEnPlanta() {
         return enPlanta.size();
+    }
+
+    public void limpiar() {
+        esperando.clear();
+        enPlanta.clear();
     }
 }

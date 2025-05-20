@@ -1,4 +1,4 @@
-package pyAscensores.modelo;
+package modelo;
 
 public class Llamada {
     private int origen;

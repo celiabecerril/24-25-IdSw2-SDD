@@ -1,48 +1,41 @@
-package pyAscensores.controlador;
+package controlador;
 
-import pyAscensores.modelo.Tiempo;
-import pyAscensores.modelo.Universidad;
-import pyAscensores.vista.ConsolaVista;
+import modelo.Tiempo;
+import  modelo.Universidad;
+import  vista.ConsolaVista;
+
 
 public class Mundo {
-        private int dia = 1;
-    private int hora = 8;
-    private int minuto = 30;
+    public static final int HORA_INICIO_DIA = 8;
+    public static final int MINUTO_INICIO = 30;
+    public static final long PAUSA_SIMULACION_MS = 200;
 
-    private Universidad universidad;
     private Tiempo tiempo;
+    private Universidad universidad;
     private ConsolaVista vista;
 
     public Mundo() {
-        this.tiempo = new Tiempo(dia, hora, minuto);
+        this.tiempo = new Tiempo(1, HORA_INICIO_DIA, MINUTO_INICIO);
         this.universidad = new Universidad(tiempo);
         this.vista = new ConsolaVista();
     }
 
     public void simularDia() {
-
         while (true) {
             tiempo.avanzarMinuto();
-
             if (universidad.estaAbierta()) {
                 universidad.generarLlegadas();
-                universidad.actualizarEstancias();
             } else {
-                universidad.actualizarEstancias();
                 System.out.println("No son horas de ir a la universidad... mejor duerme 😴\n");
             }
-
+            universidad.actualizarEstancias();
             universidad.actualizarEstado();
             vista.mostrarEstado(universidad.getPlantas(), universidad.getAscensores(), tiempo);
-            if (tiempo.getHora() == 21) {
+            if (tiempo.getHora() == Tiempo.HORA_CIERRE) {
                 vista.mostrarTotalesFinales(universidad);
             }
-
-            try {
-                Thread.sleep(200); // Simulación de paso del tiempo
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            try { Thread.sleep(PAUSA_SIMULACION_MS); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
         }
     }
 }
+

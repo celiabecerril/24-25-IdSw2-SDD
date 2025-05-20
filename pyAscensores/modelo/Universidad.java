@@ -1,34 +1,43 @@
-package pyAscensores.modelo;
+// File: modelo/Universidad.java
+package modelo;
 
 import java.util.*;
+import controlador.ControlAscensor;
 
-import pyAscensores.controlador.ControlAscensor;
-
+/**
+ * Gestiona la simulación de llegadas y salidas en la universidad.
+ */
 public class Universidad {
+    public static final double PROBABILIDAD_INGRESO = 0.8;
+    private static final int PLANTA_MIN = Piso.MIN_PISO;
+    private static final int PLANTA_MAX = Piso.MAX_PISO;
+    private static final int INDICE_PLANTA_CERO = Piso.index(Piso.INGRESO);
 
-    private static final double PROBABILIDAD_INGRESO = 0.8;
     private List<Planta> plantas;
     private List<Ascensor> ascensores;
     private ControlAscensor control;
     private Tiempo tiempo;
-    private final Random random = new Random();
+    private Random random = new Random();
     private int totalPersonasIngresadas = 0;
 
     public Universidad(Tiempo tiempo) {
         this.tiempo = tiempo;
         plantas = new ArrayList<>();
-        for (int i = -3; i <= 3; i++) {
+        for (int i = PLANTA_MIN; i <= PLANTA_MAX; i++) {
             plantas.add(new Planta(i));
         }
-        ascensores = Arrays.asList(new Ascensor("A1"), new Ascensor("A2"), new Ascensor("A3"), new Ascensor("A4"));
+        ascensores = Arrays.asList(
+            new Ascensor("A1"),
+            new Ascensor("A2"),
+            new Ascensor("A3"),
+            new Ascensor("A4")
+        );
         control = new ControlAscensor(ascensores);
         asignarPlantas();
     }
 
     private void asignarPlantas() {
-        for (Ascensor ascensor : ascensores) {
-            ascensor.asignarPlantas(plantas);
-        }
+        ascensores.forEach(a -> a.asignarPlantas(plantas));
     }
 
     public boolean estaAbierta() {
@@ -36,15 +45,15 @@ public class Universidad {
     }
 
     public void generarLlegadas() {
-        if (random.nextDouble() < PROBABILIDAD_INGRESO) {
+        if (random.nextDouble() < PROBABILIDAD_INGRESO && estaAbierta()) {
             int destino;
             do {
-                destino = random.nextInt(7) - 3;
-            } while (destino == 0);
+                destino = random.nextInt(PLANTA_MAX - PLANTA_MIN + 1) + PLANTA_MIN;
+            } while (destino == Piso.INGRESO);
 
             Persona persona = new Persona(destino);
-            plantas.get(3).personaEsperaAscensor(persona);
-            control.procesarLlamada(persona, 0, destino);
+            plantas.get(INDICE_PLANTA_CERO).personaEsperaAscensor(persona);
+            control.procesarLlamada(persona, Piso.INGRESO, destino);
             totalPersonasIngresadas++;
         }
     }
@@ -52,7 +61,6 @@ public class Universidad {
     public void actualizarEstancias() {
         for (Planta planta : plantas) {
             List<Persona> paraSalir = new ArrayList<>();
-
             Iterator<Persona> it = planta.getEnPlanta().iterator();
             while (it.hasNext()) {
                 Persona persona = it.next();
@@ -62,44 +70,60 @@ public class Universidad {
                     it.remove();
                 }
             }
-
-            for (Persona persona : paraSalir) {
-                persona.marcarSalida();
-                planta.getEsperando().add(persona);
-                control.procesarLlamada(persona, planta.getNumero(), 0);
-            }
+            paraSalir.forEach(p -> {
+                p.marcarSalida();
+                planta.getEsperando().add(p);
+                control.procesarLlamada(p, planta.getNumero(), Piso.INGRESO);
+            });
         }
-
-        Planta plantaCero = plantas.get(3);
-        Iterator<Persona> itCero = plantaCero.getEnPlanta().iterator();
-        while (itCero.hasNext()) {
-            Persona persona = itCero.next();
-            if (persona.haSalido()) {
-                itCero.remove();
-            }
-        }
+        // Limpieza de quienes ya han salido de planta 0
+        Planta p0 = plantas.get(INDICE_PLANTA_CERO);
+        p0.getEnPlanta().removeIf(Persona::haSalido);
     }
 
-    public void actualizarEstado() {
-        // Garantiza que si alguien está en planta != 0, solicite salida
-        for (Planta planta : plantas) {
-            if (planta.getNumero() != 0) {
-                List<Persona> paraSalir = new ArrayList<>();
-                for (Persona p : planta.getEnPlanta()) {
-                    if (!p.debeSalir()) {
-                        p.marcarSalida();
-                        paraSalir.add(p);
-                    }
-                }
-                planta.getEnPlanta().removeAll(paraSalir);
-                for (Persona p : paraSalir) {
-                    planta.getEsperando().add(p);
-                    control.procesarLlamada(p, planta.getNumero(), 0);
-                }
-            }
-        }
+    public void moverAscensores() {
         control.moverAscensores();
     }
+
+
+public void actualizarEstado() {
+    // 1) Si es la hora de cierre, convierto a TODOS en llamadas al ascensor
+    if (tiempo.getHora() == Tiempo.HORA_CIERRE) {
+        for (Planta planta : plantas) {
+            // a) Personas que están en la planta: marco destino=0 y las pongo en la cola
+            List<Persona> enPlanta = new ArrayList<>(planta.getEnPlanta());
+            for (Persona p : enPlanta) {
+                p.marcarSalida();                            // destino→0
+                planta.getEnPlanta().remove(p);
+                planta.getEsperando().add(p);
+            }
+            // b) Personas que ya estaban esperando: actualizo su llamada
+            Queue<Persona> cola = planta.getEsperando();
+            for (Persona p : new ArrayList<>(cola)) {
+                control.procesarLlamada(p, planta.getNumero(), Piso.INGRESO);
+                // NO quito de la cola; el ascensor las recogerá y luego se limpiará en bajar()
+            }
+        }
+        // 2) Muevo los ascensores para evacuar de verdad
+        control.moverAscensores();
+        return;
+    }
+
+    // Lógica normal (antes del cierre)…
+    for (Planta planta : plantas) {
+        if (planta.getNumero() != Piso.INGRESO) {
+            List<Persona> copia = new ArrayList<>(planta.getEnPlanta());
+            for (Persona p : copia) {
+                p.marcarSalida();
+                planta.getEnPlanta().remove(p);
+                planta.getEsperando().add(p);
+                control.procesarLlamada(p, planta.getNumero(), Piso.INGRESO);
+            }
+        }
+    }
+    control.moverAscensores();
+}
+
 
     public boolean todosSeFueron() {
         boolean plantasVacias = plantas.stream()

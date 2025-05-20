@@ -1,6 +1,7 @@
-package pyAscensores.vista;
+package vista;
 
-import pyAscensores.modelo.Planta;
+import modelo.Planta;
+
 
 public class RepresentadorPlanta {
     public static String representar(Planta planta) {
@@ -12,4 +13,5 @@ public class RepresentadorPlanta {
         );
     }
 }
+
 

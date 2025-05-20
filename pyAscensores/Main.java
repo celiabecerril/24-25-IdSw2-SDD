@@ -1,6 +1,6 @@
-package pyAscensores;
 
-import pyAscensores.controlador.Mundo;
+
+import controlador.Mundo;
 
 public class Main {
     public static void main(String[] args) {

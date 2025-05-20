@@ -1,9 +1,10 @@
-package pyAscensores.vista;
+package vista;
 
 import java.util.List;
 
-import pyAscensores.modelo.Ascensor;
-import pyAscensores.modelo.Planta;
+import modelo.Ascensor;
+import modelo.Planta;
+
 
 public class LineaVista {
     public static String formatearLinea(Planta planta, List<Ascensor> ascensores) {
@@ -24,3 +25,4 @@ public class LineaVista {
         return cantidad > 0 ? "__" + cantidad + "__" : "_____";
     }
 }
+

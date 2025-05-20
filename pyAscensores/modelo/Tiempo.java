@@ -1,6 +1,11 @@
-package pyAscensores.modelo;
+package modelo;
 
 public class Tiempo {
+    public static final int HORA_APERTURA = 9;
+    public static final int HORA_CIERRE = 21;
+    public static final int MINUTOS_POR_HORA = 60;
+    public static final int HORAS_POR_DIA = 24;
+
     private int dia;
     private int hora;
     private int minuto;
@@ -13,10 +18,10 @@ public class Tiempo {
 
     public void avanzarMinuto() {
         minuto++;
-        if (minuto >= 60) {
+        if (minuto >= MINUTOS_POR_HORA) {
             minuto = 0;
             hora++;
-            if (hora >= 24) {
+            if (hora >= HORAS_POR_DIA) {
                 hora = 0;
                 dia++;
             }
@@ -31,7 +36,11 @@ public class Tiempo {
         return hora;
     }
 
+    public int getMinuto() {
+        return minuto;
+    }
+
     public boolean esHoraEntradaPermitida() {
-        return hora >= 9 && hora < 21;
+        return hora >= HORA_APERTURA && hora < HORA_CIERRE;
     }
 }

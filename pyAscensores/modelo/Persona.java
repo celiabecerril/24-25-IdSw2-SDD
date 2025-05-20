@@ -1,6 +1,9 @@
-package pyAscensores.modelo;
+package modelo;
 
 public class Persona {
+    public static final int MIN_TIEMPO_ESTANCIA = 5;
+    public static final int MAX_TIEMPO_ESTANCIA = 15;
+
     private int destino;
     private boolean quiereSalir;
     private int tiempoRestante;
@@ -8,7 +11,7 @@ public class Persona {
     public Persona(int destino) {
         this.destino = destino;
         this.quiereSalir = false;
-        this.tiempoRestante = 5 + (int) (Math.random() * 11); // entre 5 y 15 minutos
+        this.tiempoRestante = MIN_TIEMPO_ESTANCIA + (int)(Math.random() * (MAX_TIEMPO_ESTANCIA - MIN_TIEMPO_ESTANCIA + 1));
     }
 
     public int getPlantaDestino() {
@@ -17,7 +20,7 @@ public class Persona {
 
     public void decrementarTiempo() {
         if (tiempoRestante > 0) tiempoRestante--;
-        if (tiempoRestante <= 0 && destino != 0) quiereSalir = true;
+        if (tiempoRestante <= 0 && destino != Piso.INGRESO) quiereSalir = true;
     }
 
     public boolean debeSalir() {
@@ -26,11 +29,11 @@ public class Persona {
 
     public void marcarSalida() {
         this.quiereSalir = false;
-        this.destino = 0;
+        this.destino = Piso.INGRESO;
         this.tiempoRestante = 0;
     }
 
     public boolean haSalido() {
-        return destino == 0 && tiempoRestante <= 0 && !quiereSalir;
+        return destino == Piso.INGRESO && tiempoRestante <= 0 && !quiereSalir;
     }
 }

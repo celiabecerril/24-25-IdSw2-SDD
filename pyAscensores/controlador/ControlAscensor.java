@@ -1,11 +1,12 @@
-package pyAscensores.controlador;
+package controlador;
 
 import java.util.Comparator;
 import java.util.List;
 
-import pyAscensores.modelo.Ascensor;
-import pyAscensores.modelo.Llamada;
-import pyAscensores.modelo.Persona;
+import modelo.Ascensor;
+import modelo.Llamada;
+import modelo.Persona;
+
 
 public class ControlAscensor {
     private List<Ascensor> ascensores;
@@ -16,8 +17,8 @@ public class ControlAscensor {
 
     public void procesarLlamada(Persona p, int origen, int destino) {
         Ascensor elegido = ascensores.stream()
-                .min(Comparator.comparingInt(a -> Math.abs(a.getPlantaActual() - origen)))
-                .orElse(ascensores.get(0));
+            .min(Comparator.comparingInt(a -> Math.abs(a.getPlantaActual() - origen)))
+            .orElse(ascensores.get(0));
         elegido.atenderLlamada(new Llamada(origen, destino, p));
     }
 

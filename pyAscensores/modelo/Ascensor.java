@@ -1,11 +1,12 @@
-package pyAscensores.modelo;
+package modelo;
 
 import java.util.*;
 
 public class Ascensor {
-    private static final int CAPACIDAD = 6;
+    public static final int CAPACIDAD_MAXIMA = 6;
+
     private String id;
-    private int plantaActual = 0;
+    private int plantaActual = Piso.INGRESO;
     private List<Persona> personas = new ArrayList<>();
     private Queue<Llamada> llamadas = new LinkedList<>();
     private List<Planta> plantas;
@@ -26,11 +27,11 @@ public class Ascensor {
     public void mover() {
         bajar();
         recoger();
-
-        if (!personas.isEmpty())
+        if (!personas.isEmpty()) {
             moverHacia(personas.get(0).getPlantaDestino());
-        else if (!llamadas.isEmpty())
+        } else if (!llamadas.isEmpty()) {
             moverHacia(llamadas.peek().getPlantaOrigen());
+        }
     }
 
     private void moverHacia(int destino) {
@@ -40,7 +41,7 @@ public class Ascensor {
     private void bajar() {
         personas.removeIf(p -> {
             if (p.getPlantaDestino() == plantaActual) {
-                plantas.get(plantaActual + 3).getEnPlanta().add(p);
+                plantas.get(Piso.index(plantaActual)).getEnPlanta().add(p);
                 return true;
             }
             return false;
@@ -48,15 +49,20 @@ public class Ascensor {
     }
 
     private void recoger() {
-        Planta planta = plantas.get(plantaActual + 3);
+        Planta planta = plantas.get(Piso.index(plantaActual));
         Iterator<Persona> it = planta.getEsperando().iterator();
-        while (it.hasNext() && personas.size() < CAPACIDAD) {
+        while (it.hasNext() && personas.size() < CAPACIDAD_MAXIMA) {
             Persona p = it.next();
             personas.add(p);
             totalTransportadas++;
             it.remove();
             llamadas.removeIf(l -> l.getPersona() == p);
         }
+    }
+
+    public void vaciar() {
+        personas.clear();
+        llamadas.clear();
     }
 
     public int getPlantaActual() {
