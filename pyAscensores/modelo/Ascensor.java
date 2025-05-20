@@ -30,7 +30,15 @@ public class Ascensor {
         if (!personas.isEmpty()) {
             moverHacia(personas.get(0).getPlantaDestino());
         } else if (!llamadas.isEmpty()) {
-            moverHacia(llamadas.peek().getPlantaOrigen());
+            Llamada siguiente = llamadas.peek();
+            moverHacia(siguiente.getPlantaOrigen());
+        } else {
+            for (Planta p : plantas) {
+                if (!p.getEsperando().isEmpty()) {
+                    moverHacia(p.getNumero());
+                    break;
+                }
+            }
         }
     }
 
@@ -82,6 +90,6 @@ public class Ascensor {
     }
 
     public boolean tieneLlamadaPara(Persona p) {
-    return llamadas.stream().anyMatch(l -> l.getPersona().equals(p));
-}
+        return llamadas.stream().anyMatch(l -> l.getPersona().equals(p));
+    }
 }

@@ -7,7 +7,7 @@ import  vista.ConsolaVista;
 
 public class Mundo {
     public static final int DIA = 1;
-    public static final int HORA_INICIO = 8;
+    public static final int HORA_INICIO = 19;
     public static final int MINUTO_INICIO = 30;
     public static final long PAUSA_SIMULACION_MS = 200;
 
@@ -27,7 +27,7 @@ public class Mundo {
             if (universidad.estaAbierta()) {
                 universidad.generarLlegadas();
             } else {
-                System.out.println("No son horas de ir a la universidad... mejor duerme 😴\n");
+                System.out.print("No son horas de ir a la universidad... mejor duerme 😴\n");
             }
             universidad.actualizarEstancias();
             universidad.actualizarEstado();

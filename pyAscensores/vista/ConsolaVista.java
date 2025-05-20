@@ -26,5 +26,6 @@ public class ConsolaVista {
         System.out.printf("%-12s -> Personas ingresadas en el día: %d\n", "REGISTRO",
                 universidad.getTotalPersonasIngresadas());
         System.out.printf("%-12s -> Viajes totales realizados: %d\n", "VIAJES", totalTransportadas);
+        System.out.println();
     }
 }
