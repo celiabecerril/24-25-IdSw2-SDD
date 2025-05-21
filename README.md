@@ -56,7 +56,7 @@ Simulación de ascensores en una universidad, gestionando la llegada de personas
 | Entidad  | Imagen                                                                                  | Código PlantUML                                                                                   |
 |----------|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
 | **Persona**  | ![Estados Persona](images/MdD/DiagramaEstados/DiagramaEstadosPersona.svg)         | [📖 modelo_estados_persona.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosPersona.puml)      |
-| **Llamada**  | ![Estados Llamada](images/MdD/DiagramaEstados/DiagramaEstadosLlamada.svg)         | [📖 modelo_estados_llamada.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosLlamada.puml)      |
+| **Llamada**  | ![Estados Llamada](images/MdD/DiagramaEstados/DiagramaDeEstadosLlamada.svg)         | [📖 modelo_estados_llamada.puml](modelosUML/MdD/DiagramaEstados/DiagramaDeEstadosLlamada.puml)      |
 | **Planta**   | ![Estados Planta](images/MdD/DiagramaEstados/DiagramaEstadosPlanta.svg)           | [📖 modelo_estados_planta.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosPlanta.puml)        |
 | **Ascensor** | ![Estados Ascensor](images/MdD/DiagramaEstados/DiagramaEstadosAscensor.svg)       | [📖 modelo_estados_ascensor.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosAscensor.puml)    |
 
