@@ -1,30 +1,63 @@
-# Proyecto pyAscensores
+# 🚀 Proyecto **pyAscensores**
 
-Este proyecto simula el funcionamiento de ascensores en una universidad, gestionando la llegada de personas, colas de espera, movimientos de ascensores y visualización por consola.
+Simulación de ascensores en una universidad, gestionando la llegada de personas, colas de espera, movimientos de ascensores y visualización por consola.
 
-## Estructura de Clases
+---
 
-- **Universidad**: Coordina la generación de llegadas, la gestión de estancias y el control de ascensores.  
-- **Planta**: Representa una planta del edificio, con colas de personas esperando (`esperando`) y personas dentro (`enPlanta`).  
-- **Persona**: Modelo de usuario con destino, tiempo de estancia y llamadas internas.  
-- **Llamada**: Petición de uso de ascensor con origen y referencia a la persona.  
-- **Ascensor**: Simula un ascensor con capacidad limitada. Gestiona llamadas, pasajeros y movimiento.  
-- **Tiempo**: Reloj de simulación (día, hora, minuto). Avanza el tiempo y valida horas de entrada.  
-- **ControlAscensor**: Asigna llamadas a ascensores y desencadena su movimiento.  
-- **Mundo** / **Main**: Bucle principal que avanza el tiempo y coordina la simulación.  
-- **ConsolaVista**, **LineaVista**, **RepresentadorPlanta**: Clases para mostrar el estado en consola.  
+## 📂 Estructura de Clases
 
-## Modelo del Dominio
+- **Universidad**  
+  Coordina generación de llegadas, gestión de estancias y control de ascensores.
 
-### Diagrama de Clases
+- **Planta**  
+  Representa cada planta del edificio, con colas de personas en espera (`esperando`) y personas dentro (`enPlanta`).
 
-![Diagrama de Clases](images/MdD/DdC/DdC.svg) [Ver Código ](modelosUML/MdD/DdC/DdC.puml)
+- **Persona**  
+  Modelo de usuario con destino, tiempo de estancia y llamadas internas.
 
-### Diagrama de Objetos
+- **Llamada**  
+  Petición de uso de ascensor: origen de la solicitud y referencia a la persona.
 
-![Diagrama de Objetos](images/MdD/DiagramaDeObjetos/DiagramaObjetos.svg) [Ver Código ](modelosUML/MdD/DiagramaObjetos/DiagramaObjetos.puml)
+- **Ascensor**  
+  Simula un ascensor con capacidad limitada. Gestiona llamadas, pasajeros y movimiento.
 
-### Diagrama de Estados (Persona)
+- **Tiempo**  
+  Reloj de simulación (día, hora, minuto). Avanza el tiempo y valida ventanas de entrada.
 
-![Diagrama de Estados Persona](images/MdD/DiagramaEstados/DiagramaEstadosPersona.svg) [Ver Código ](modelosUML/MdD/DiagramaEstados/DiagramaEstadosPersona.puml)
+- **ControlAscensor**  
+  Asigna llamadas a ascensores y dispara su movimiento.
+
+- **Mundo** / **Main**  
+  Bucle principal que avanza el reloj y orquesta la simulación.
+
+- **ConsolaVista**, **LineaVista**, **RepresentadorPlanta**  
+  Clases para representar el estado actual en consola.
+
+---
+
+## 🏗️ Modelo del Dominio
+
+### 🗂️ Diagrama de Clases
+
+![Diagrama de Clases](images/MdD/DdC/DdC.svg)  
+[📖 Ver PlantUML](modelosUML/MdD/DdC/DdC.puml)
+
+---
+
+### 📦 Diagrama de Objetos
+
+![Diagrama de Objetos](images/MdD/DiagramaDeObjetos/DiagramaObjetos.svg)  
+[📖 Ver PlantUML](modelosUML/MdD/DiagramaObjetos/DiagramaObjetos.puml)
+
+---
+
+## 🔄 Diagramas de Estados
+
+| Entidad  | Imagen                                                                                  | Código PlantUML                                                                                   |
+|----------|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **Persona**  | ![Estados Persona](images/MdD/DiagramaEstados/DiagramaEstadosPersona.svg)         | [📖 modelo_estados_persona.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosPersona.puml)      |
+| **Llamada**  | ![Estados Llamada](images/MdD/DiagramaEstados/DiagramaEstadosLlamada.svg)         | [📖 modelo_estados_llamada.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosLlamada.puml)      |
+| **Planta**   | ![Estados Planta](images/MdD/DiagramaEstados/DiagramaEstadosPlanta.svg)           | [📖 modelo_estados_planta.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosPlanta.puml)        |
+| **Ascensor** | ![Estados Ascensor](images/MdD/DiagramaEstados/DiagramaEstadosAscensor.svg)       | [📖 modelo_estados_ascensor.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosAscensor.puml)    |
+
 
