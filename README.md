@@ -28,7 +28,7 @@ Simulación de ascensores en una universidad, gestionando la llegada de personas
   Asigna llamadas a ascensores y dispara su movimiento.
 
 - **Mundo** / **Main**  
-  Bucle principal que avanza el reloj y orquesta la simulación.
+  Bucle principal que avanza el reloj y empieza la simulación.
 
 - **ConsolaVista**, **LineaVista**, **RepresentadorPlanta**  
   Clases para representar el estado actual en consola.
