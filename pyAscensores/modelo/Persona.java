@@ -18,6 +18,10 @@ public class Persona {
     public int getPlantaDestino() {
         return destino;
     }
+    public int setPlantaDestino(int destino) {
+        this.destino = destino;
+        return this.destino;
+    }   
 
     public void decrementarTiempo() {
         if (tiempoRestante > 0)

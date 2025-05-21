@@ -93,7 +93,6 @@ public class Universidad {
                 }
             }
         }
-
         control.moverAscensores();
     }
 
@@ -102,13 +101,9 @@ public class Universidad {
     }
 
     public int contarPersonasDentro() {
-        int enPlantas = plantas.stream()
-                .mapToInt(p -> p.getCantidadEsperando() + p.getCantidadEnPlanta())
-                .sum();
-        int enAscensores = ascensores.stream()
-                .mapToInt(Ascensor::getCantidadPersonas)
-                .sum();
-        return enPlantas + enAscensores;
+        return plantas.stream()
+            .mapToInt(p -> p.getCantidadEsperando() + p.getCantidadEnPlanta())
+            .sum();
     }
 
     public List<Planta> getPlantas() {
@@ -125,5 +120,9 @@ public class Universidad {
 
     public int getPersonasDentro() {
         return contarPersonasDentro();
+    }
+
+    public ControlAscensor getControlAscensor() {
+        return control;
     }
 }

@@ -1,6 +1,10 @@
 package modelo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class Ascensor {
     public static final int CAPACIDAD_MAXIMA = 6;
@@ -56,17 +60,18 @@ public class Ascensor {
         });
     }
 
-    private void recoger() {
-        Planta planta = plantas.get(Piso.index(plantaActual));
-        Iterator<Persona> it = planta.getEsperando().iterator();
-        while (it.hasNext() && personas.size() < CAPACIDAD_MAXIMA) {
-            Persona p = it.next();
-            personas.add(p);
-            totalTransportadas++;
-            it.remove();
-            llamadas.removeIf(l -> l.getPersona() == p);
-        }
+   private void recoger() {
+    Planta planta = plantas.get(Piso.index(plantaActual));
+    Iterator<Persona> it = planta.getEsperando().iterator();
+    while (it.hasNext() && personas.size() < CAPACIDAD_MAXIMA) {
+        Persona p = it.next();
+        personas.add(p);
+        totalTransportadas++;
+        it.remove();
+        llamadas.removeIf(l -> l.getPersona() == p);
     }
+}
+
 
     public void vaciar() {
         personas.clear();
