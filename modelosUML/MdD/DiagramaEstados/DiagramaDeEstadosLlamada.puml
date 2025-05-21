@@ -1,0 +1,11 @@
+@startuml
+' Diagrama de Estados: Llamada
+hide empty description
+
+[*] --> Creando
+
+Creando --> Encolando : procesar llamada
+Encolando --> Asignando : llamada asignada a un ascensor
+Asignando --> Atendiendo : ascensor llega al origen
+Atendiendo --> [*] : persona aborda y llamada finaliza
+@enduml

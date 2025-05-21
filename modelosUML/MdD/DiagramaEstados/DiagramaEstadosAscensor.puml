@@ -1,0 +1,15 @@
+@startuml
+' Diagrama de Estados: Ascensor
+hide empty description
+
+[*] --> Esperando
+
+Esperando --> Cargando : solicitud en planta actual
+Cargando --> Moviéndose : puertas cerradas y hay tareas pendientes
+Moviéndose --> Descargando : llega a la planta destino
+Descargando --> Esperando : fin de ciclo
+
+Moviéndose --> Moviéndose : sigue moviéndose
+Cargando --> Cargando : sigue cargando personas
+Descargando --> Descargando : sigue descargando personas
+@enduml
