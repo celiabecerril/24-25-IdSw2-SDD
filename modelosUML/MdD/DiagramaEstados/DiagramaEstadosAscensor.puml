@@ -7,9 +7,10 @@ hide empty description
 Esperando --> Cargando : solicitud en planta actual
 Cargando --> Moviéndose : puertas cerradas y hay tareas pendientes
 Moviéndose --> Descargando : llega a la planta destino
-Descargando --> Esperando : fin de ciclo
+Descargando --> Esperando : empieza e ciclo
 
 Moviéndose --> Moviéndose : sigue moviéndose
 Cargando --> Cargando : sigue cargando personas
 Descargando --> Descargando : sigue descargando personas
+Descargando --> [*]: fin de ciclo
 @enduml

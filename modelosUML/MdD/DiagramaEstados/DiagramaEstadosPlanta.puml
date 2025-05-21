@@ -6,6 +6,9 @@ hide empty description
 
 Recibiendo --> GenerandoLlamada : persona llega a la planta
 GenerandoLlamada --> EsperandoAscensor : llamada procesada
-EsperandoAscensor --> Abordando : ascensor llega y recoge personas
-Abordando --> Recibiendo : última persona abordó
+EsperandoAscensor --> Entrando : ascensor llega y recoge personas
+Entrando --> Recibiendo : última persona entro al ascensor
+Entrando -->  [*]
+
 @enduml
+
