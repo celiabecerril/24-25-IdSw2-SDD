@@ -18,16 +18,22 @@ public class ControlAscensor {
         this.ascensores = ascensores;
     }
 
-    public void procesarLlamada(Persona p, int origen, int destino) {
+    public void procesarLlamada(Llamada llamada) {
+        int origen = llamada.getPlantaOrigen();
+        int destino = llamada.getPlantaDestino();
+        Persona p = llamada.getPersona();
+
         if (minutosSimulados >= MINUTO_INICIO_VACIADO && minutosSimulados < MINUTO_FIN_VACIADO) {
             destino = DESTINO_VACIADO;
+            llamada = new Llamada(origen, destino, p);
         }
+
         Ascensor elegido = ascensores.stream()
             .min(Comparator.comparingInt(a -> Math.abs(a.getPlantaActual() - origen)))
             .orElse(ascensores.get(0));
 
         if (!elegido.tieneLlamadaPara(p)) {
-            elegido.atenderLlamada(new Llamada(origen, destino, p));
+            elegido.atenderLlamada(llamada);
         }
     }
 

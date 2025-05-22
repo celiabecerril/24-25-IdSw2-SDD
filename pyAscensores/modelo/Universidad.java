@@ -48,7 +48,7 @@ public class Universidad {
 
             Persona persona = new Persona(destino);
             plantas.get(INGRESO).personaEsperaAscensor(persona);
-            control.procesarLlamada(persona, INGRESO, destino);
+            control.procesarLlamada(new Llamada(destino, INGRESO, persona));
             totalPersonasIngresadas++;
         }
     }
@@ -68,7 +68,7 @@ public class Universidad {
             paraSalir.forEach(p -> {
                 p.marcarSalida();
                 planta.getEsperando().add(p);
-                control.procesarLlamada(p, planta.getNumero(), INGRESO);
+                control.procesarLlamada(new Llamada(INGRESO, planta.getNumero(), p));
             });
         }
         plantas.get(INGRESO).getEnPlanta().removeIf(Persona::haSalido);
@@ -88,7 +88,7 @@ public class Universidad {
                     planta.getEsperando().add(p);
                 }
                 for (Persona p : new ArrayList<>(planta.getEsperando())) {
-                    control.procesarLlamada(p, planta.getNumero(), INGRESO);
+                    control.procesarLlamada(new Llamada(INGRESO, planta.getNumero(), p));
                 }
             }
         }
