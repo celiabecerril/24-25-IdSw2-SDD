@@ -1,26 +1,22 @@
 package modelo;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Queue;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Ascensor {
     public static final int CAPACIDAD_MAXIMA = 6;
 
     private String id;
-    private int plantaActual = Piso.INGRESO;
+    private int plantaActual = Universidad.INGRESO;
     private List<Persona> personas = new ArrayList<>();
     private Queue<Llamada> llamadas = new LinkedList<>();
-    private List<Planta> plantas;
+    private Map<Integer, Planta> plantas;
     private int totalTransportadas = 0;
 
     public Ascensor(String id) {
         this.id = id;
     }
 
-    public void asignarPlantas(List<Planta> plantas) {
+    public void asignarPlantas(Map<Integer, Planta> plantas) {
         this.plantas = plantas;
     }
 
@@ -37,7 +33,7 @@ public class Ascensor {
             Llamada siguiente = llamadas.peek();
             moverHacia(siguiente.getPlantaOrigen());
         } else {
-            for (Planta p : plantas) {
+            for (Planta p : plantas.values()) {
                 if (!p.getEsperando().isEmpty()) {
                     moverHacia(p.getNumero());
                     break;
@@ -53,25 +49,24 @@ public class Ascensor {
     private void bajar() {
         personas.removeIf(p -> {
             if (p.getPlantaDestino() == plantaActual) {
-                plantas.get(Piso.index(plantaActual)).getEnPlanta().add(p);
+                plantas.get(plantaActual).getEnPlanta().add(p);
                 return true;
             }
             return false;
         });
     }
 
-   private void recoger() {
-    Planta planta = plantas.get(Piso.index(plantaActual));
-    Iterator<Persona> it = planta.getEsperando().iterator();
-    while (it.hasNext() && personas.size() < CAPACIDAD_MAXIMA) {
-        Persona p = it.next();
-        personas.add(p);
-        totalTransportadas++;
-        it.remove();
-        llamadas.removeIf(l -> l.getPersona() == p);
+    private void recoger() {
+        Planta planta = plantas.get(plantaActual);
+        Iterator<Persona> it = planta.getEsperando().iterator();
+        while (it.hasNext() && personas.size() < CAPACIDAD_MAXIMA) {
+            Persona p = it.next();
+            personas.add(p);
+            totalTransportadas++;
+            it.remove();
+            llamadas.removeIf(l -> l.getPersona() == p);
+        }
     }
-}
-
 
     public void vaciar() {
         personas.clear();

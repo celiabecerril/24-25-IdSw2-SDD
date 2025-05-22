@@ -5,11 +5,11 @@ import controlador.ControlAscensor;
 
 public class Universidad {
     public static final double PROBABILIDAD_INGRESO = 0.8;
-    private static final int PLANTA_MIN = Piso.MIN_PISO;
-    private static final int PLANTA_MAX = Piso.MAX_PISO;
-    private static final int INDICE_PLANTA_CERO = Piso.index(Piso.INGRESO);
+    public static final int MIN_PISO = -3;
+    public static final int MAX_PISO = 3;
+    public static final int INGRESO = 0;
 
-    private List<Planta> plantas;
+    private Map<Integer, Planta> plantas;
     private List<Ascensor> ascensores;
     private ControlAscensor control;
     private Tiempo tiempo;
@@ -18,9 +18,9 @@ public class Universidad {
 
     public Universidad(Tiempo tiempo) {
         this.tiempo = tiempo;
-        plantas = new ArrayList<>();
-        for (int i = PLANTA_MIN; i <= PLANTA_MAX; i++) {
-            plantas.add(new Planta(i));
+        plantas = new HashMap<>();
+        for (int i = MIN_PISO; i <= MAX_PISO; i++) {
+            plantas.put(i, new Planta(i));
         }
         ascensores = Arrays.asList(
                 new Ascensor("A1"),
@@ -43,18 +43,18 @@ public class Universidad {
         if (random.nextDouble() < PROBABILIDAD_INGRESO && estaAbierta()) {
             int destino;
             do {
-                destino = random.nextInt(PLANTA_MAX - PLANTA_MIN + 1) + PLANTA_MIN;
-            } while (destino == Piso.INGRESO);
+                destino = random.nextInt(MAX_PISO - MIN_PISO + 1) + MIN_PISO;
+            } while (destino == INGRESO);
 
             Persona persona = new Persona(destino);
-            plantas.get(INDICE_PLANTA_CERO).personaEsperaAscensor(persona);
-            control.procesarLlamada(persona, Piso.INGRESO, destino);
+            plantas.get(INGRESO).personaEsperaAscensor(persona);
+            control.procesarLlamada(persona, INGRESO, destino);
             totalPersonasIngresadas++;
         }
     }
 
     public void actualizarEstancias() {
-        for (Planta planta : plantas) {
+        for (Planta planta : plantas.values()) {
             List<Persona> paraSalir = new ArrayList<>();
             Iterator<Persona> it = planta.getEnPlanta().iterator();
             while (it.hasNext()) {
@@ -68,11 +68,10 @@ public class Universidad {
             paraSalir.forEach(p -> {
                 p.marcarSalida();
                 planta.getEsperando().add(p);
-                control.procesarLlamada(p, planta.getNumero(), Piso.INGRESO);
+                control.procesarLlamada(p, planta.getNumero(), INGRESO);
             });
         }
-        Planta p0 = plantas.get(INDICE_PLANTA_CERO);
-        p0.getEnPlanta().removeIf(Persona::haSalido);
+        plantas.get(INGRESO).getEnPlanta().removeIf(Persona::haSalido);
     }
 
     public void moverAscensores() {
@@ -81,7 +80,7 @@ public class Universidad {
 
     public void actualizarEstado() {
         if (!estaAbierta()) {
-            for (Planta planta : plantas) {
+            for (Planta planta : plantas.values()) {
                 List<Persona> enPlanta = new ArrayList<>(planta.getEnPlanta());
                 for (Persona p : enPlanta) {
                     p.marcarSalida();
@@ -89,7 +88,7 @@ public class Universidad {
                     planta.getEsperando().add(p);
                 }
                 for (Persona p : new ArrayList<>(planta.getEsperando())) {
-                    control.procesarLlamada(p, planta.getNumero(), Piso.INGRESO);
+                    control.procesarLlamada(p, planta.getNumero(), INGRESO);
                 }
             }
         }
@@ -101,12 +100,12 @@ public class Universidad {
     }
 
     public int contarPersonasDentro() {
-        return plantas.stream()
+        return plantas.values().stream()
             .mapToInt(p -> p.getCantidadEsperando() + p.getCantidadEnPlanta())
             .sum();
     }
 
-    public List<Planta> getPlantas() {
+    public Map<Integer, Planta> getPlantas() {
         return plantas;
     }
 

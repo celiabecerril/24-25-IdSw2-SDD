@@ -18,15 +18,16 @@ public class Persona {
     public int getPlantaDestino() {
         return destino;
     }
+
     public int setPlantaDestino(int destino) {
         this.destino = destino;
         return this.destino;
-    }   
+    }
 
     public void decrementarTiempo() {
         if (tiempoRestante > 0)
             tiempoRestante--;
-        if (tiempoRestante <= 0 && destino != Piso.INGRESO)
+        if (tiempoRestante <= 0 && destino != Universidad.INGRESO)
             quiereSalir = true;
     }
 
@@ -36,11 +37,11 @@ public class Persona {
 
     public void marcarSalida() {
         this.quiereSalir = false;
-        this.destino = Piso.INGRESO;
+        this.destino = Universidad.INGRESO;
         this.tiempoRestante = 0;
     }
 
     public boolean haSalido() {
-        return destino == Piso.INGRESO && tiempoRestante <= 0 && !quiereSalir;
+        return destino == Universidad.INGRESO && tiempoRestante <= 0 && !quiereSalir;
     }
 }
