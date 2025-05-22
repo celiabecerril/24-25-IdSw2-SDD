@@ -30,7 +30,7 @@ public class Mundo {
             if (universidad.estaAbierta()) {
                 universidad.generarLlegadas();
             } else {
-                System.out.print("No son horas de ir a la universidad... mejor duerme 😴\n");
+                vista.mostrarCierre();
             }
             universidad.actualizarEstancias();
             universidad.actualizarEstado();
@@ -39,6 +39,7 @@ public class Mundo {
             if (tiempo.getHora() == Tiempo.HORA_CIERRE) {
                 vista.mostrarTotalesFinales(universidad);
             }
+            vista.finalDia();
             pausar();
         }
     }

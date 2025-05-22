@@ -18,7 +18,6 @@ public class ConsolaVista {
             System.out.printf("%-12s -> Personas transportadas: %d\n", a.getId(), a.getTotalTransportadas());
         }
         System.out.printf("%-12s -> Personas dentro: %d\n", "DENTRO", universidad.getPersonasDentro());
-        System.out.print("----------------------------------------------------------\n");
     }
 
     public void mostrarTotalesFinales(Universidad universidad) {
@@ -27,5 +26,13 @@ public class ConsolaVista {
                 universidad.getTotalPersonasIngresadas());
         System.out.printf("%-12s -> Viajes totales realizados: %d\n", "VIAJES", totalTransportadas);
         System.out.println();
+    }
+
+    public void mostrarCierre() {
+        System.out.print("No son horas de ir a la universidad... mejor duerme 😴\n");
+    }
+
+    public void finalDia(){
+        System.out.print("----------------------------------------------------------\n");
     }
 }
