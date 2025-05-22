@@ -5,8 +5,7 @@ import modelo.*;
 
 public class ConsolaVista {
     public void mostrarEstado(List<Planta> plantas, List<Ascensor> ascensores, Tiempo tiempo, Universidad universidad) {
-        if (tiempo.getHora() >= Tiempo.HORA_CIERRE - 1 && tiempo.getHora() < Tiempo.HORA_CIERRE) {
-        }
+        System.out.print("----------------------------------------------------------\n");
         System.out.println(tiempo.darLaHora());
         for (int i = plantas.size() - 1; i >= 0; i--) {
             Planta p = plantas.get(i);

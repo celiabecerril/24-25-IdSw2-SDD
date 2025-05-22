@@ -24,9 +24,7 @@ public class Mundo {
         boolean diaTerminado = false;
         while (!diaTerminado) {
             tiempo.avanzarMinuto();
-            int minutosActualesSimulados = tiempo.getHora() * 60 + tiempo.getMinuto();
-            universidad.getControlAscensor().setMinutosSimulados(minutosActualesSimulados);
-    
+            
             if (universidad.estaAbierta()) {
                 universidad.generarLlegadas();
             } else {
