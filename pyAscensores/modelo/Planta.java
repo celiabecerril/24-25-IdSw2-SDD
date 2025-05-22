@@ -34,9 +34,4 @@ public class Planta {
     public int getCantidadEnPlanta() {
         return enPlanta.size();
     }
-
-    public void limpiar() {
-        esperando.clear();
-        enPlanta.clear();
-    }
 }
