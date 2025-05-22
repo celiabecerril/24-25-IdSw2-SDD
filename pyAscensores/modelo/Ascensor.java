@@ -1,6 +1,8 @@
 package modelo;
 
 import java.util.*;
+import modelo.Universidad;
+
 
 public class Ascensor {
     public static final int CAPACIDAD_MAXIMA = 6;
@@ -90,6 +92,6 @@ public class Ascensor {
     }
 
     public boolean tieneLlamadaPara(Persona p) {
-        return llamadas.stream().anyMatch(l -> l.getPersona().equals(p));
+        return llamadas.stream().anyMatch(l -> l.getPersona() == p);
     }
 }

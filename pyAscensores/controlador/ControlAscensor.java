@@ -40,4 +40,8 @@ public class ControlAscensor {
     public void moverAscensores() {
         ascensores.forEach(Ascensor::mover);
     }
+
+    public void setMinutosSimulados(int minutosSimulados) {
+        this.minutosSimulados = minutosSimulados;
+    }
 }

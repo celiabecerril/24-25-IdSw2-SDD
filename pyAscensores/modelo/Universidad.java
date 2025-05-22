@@ -40,18 +40,14 @@ public class Universidad {
     }
 
     public void generarLlegadas() {
-        if (random.nextDouble() < PROBABILIDAD_INGRESO && estaAbierta()) {
-            int destino;
-            do {
-                destino = random.nextInt(MAX_PISO - MIN_PISO + 1) + MIN_PISO;
-            } while (destino == INGRESO);
-
-            Persona persona = new Persona(destino);
-            plantas.get(INGRESO).personaEsperaAscensor(persona);
-            control.procesarLlamada(new Llamada(destino, INGRESO, persona));
-            totalPersonasIngresadas++;
-        }
+    if (random.nextDouble() < PROBABILIDAD_INGRESO && estaAbierta()) {
+        Persona persona = new Persona();
+        plantas.get(INGRESO).personaEsperaAscensor(persona);
+        control.procesarLlamada(new Llamada(INGRESO, persona.getPlantaDestino(), persona));
+        totalPersonasIngresadas++;
     }
+}
+
 
     public void actualizarEstancias() {
         for (Planta planta : plantas.values()) {
@@ -103,6 +99,9 @@ public class Universidad {
         return plantas.values().stream()
             .mapToInt(p -> p.getCantidadEsperando() + p.getCantidadEnPlanta())
             .sum();
+    }
+    public void incrementarTotalPersonasIngresadas() {
+        totalPersonasIngresadas++;
     }
 
     public Map<Integer, Planta> getPlantas() {
