@@ -42,8 +42,12 @@ public class Universidad {
     public void generarLlegadas() {
         if (random.nextDouble() < PROBABILIDAD_INGRESO && estaAbierta()) {
             Persona persona = new Persona();
-            plantas.get(INGRESO).personaEsperaAscensor(persona);
-            control.procesarLlamada(new Llamada(INGRESO, persona.getPlantaDestino(), persona));
+            if (persona.getPlantaDestino() == INGRESO) {
+                plantas.get(INGRESO).registrarEntrada(persona); // entra directamente a la planta 0
+            } else {
+                plantas.get(INGRESO).personaEsperaAscensor(persona);
+                control.procesarLlamada(new Llamada(INGRESO, persona.getPlantaDestino(), persona));
+            }
             totalPersonasIngresadas++;
         }
     }

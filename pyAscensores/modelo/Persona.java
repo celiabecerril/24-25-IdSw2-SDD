@@ -23,11 +23,7 @@ public class Persona {
 
     private int generarDestinoAleatorio() {
         Random rand = new Random();
-        int dest;
-        do {
-            dest = rand.nextInt(PLANTA_MAX - PLANTA_MIN + 1) + PLANTA_MIN;
-        } while (dest == PLANTA_INGRESO);
-        return dest;
+        return rand.nextInt(PLANTA_MAX - PLANTA_MIN + 1) + PLANTA_MIN;
     }
 
     public int getPlantaDestino() {

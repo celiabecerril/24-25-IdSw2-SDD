@@ -47,12 +47,20 @@ public class Planta {
         List<Persona> paraSalir = new ArrayList<>();
 
         if (numero == 0) {
-            enPlanta.removeIf(Persona::haSalido);
+            Iterator<Persona> it = enPlanta.iterator();
+            while (it.hasNext()) {
+                Persona persona = it.next();
+                persona.decrementarTiempo();
+                if (persona.haSalido()) {
+                    it.remove();
+                }
+            }
 
             esperando.removeIf(p -> {
                 p.decrementarTiempo();
                 return p.debeSalir();
             });
+
         } else {
             Iterator<Persona> it = enPlanta.iterator();
             while (it.hasNext()) {
