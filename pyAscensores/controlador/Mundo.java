@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Mundo {
     public static final int DIA = 1;
-    public static final int HORA_INICIO = 8;
+    public static final int HORA_INICIO = 19;
     public static final int MINUTO_INICIO = 50;
     public static final long PAUSA_SIMULACION_MS = 200;
     public static final double PROBABILIDAD_INGRESO = 0.8;

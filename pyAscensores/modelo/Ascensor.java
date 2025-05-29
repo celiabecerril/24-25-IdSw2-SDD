@@ -49,7 +49,7 @@ public class Ascensor {
     private void bajar() {
         personas.removeIf(p -> {
             if (p.getPlantaDestino() == plantaActual) {
-                plantas.get(plantaActual).getEnPlanta().add(p);
+                plantas.get(plantaActual).registrarEntrada(p);
                 return true;
             }
             return false;

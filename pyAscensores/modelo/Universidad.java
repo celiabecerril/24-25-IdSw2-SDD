@@ -50,23 +50,11 @@ public class Universidad {
 
     public void actualizarEstancias() {
         for (Planta planta : plantas.values()) {
-            List<Persona> paraSalir = new ArrayList<>();
-            Iterator<Persona> it = planta.getEnPlanta().iterator();
-            while (it.hasNext()) {
-                Persona persona = it.next();
-                persona.decrementarTiempo();
-                if (persona.debeSalir()) {
-                    paraSalir.add(persona);
-                    it.remove();
-                }
-            }
-            paraSalir.forEach(p -> {
-                p.marcarSalida();
-                planta.getEsperando().add(p);
+            List<Persona> salientes = planta.actualizarEstanciasYGenerarSalidas();
+            for (Persona p : salientes) {
                 control.procesarLlamada(new Llamada(INGRESO, planta.getNumero(), p));
-            });
+            }
         }
-        plantas.get(INGRESO).getEnPlanta().removeIf(Persona::haSalido);
     }
 
     public void moverAscensores() {
@@ -76,13 +64,8 @@ public class Universidad {
     public void actualizarEstado() {
         if (!estaAbierta()) {
             for (Planta planta : plantas.values()) {
-                List<Persona> enPlanta = new ArrayList<>(planta.getEnPlanta());
-                for (Persona p : enPlanta) {
-                    p.marcarSalida();
-                    planta.getEnPlanta().remove(p);
-                    planta.getEsperando().add(p);
-                }
-                for (Persona p : new ArrayList<>(planta.getEsperando())) {
+                planta.evacuarPersonas();
+                for (Persona p : planta.personasEsperando()) {
                     control.procesarLlamada(new Llamada(INGRESO, planta.getNumero(), p));
                 }
             }
