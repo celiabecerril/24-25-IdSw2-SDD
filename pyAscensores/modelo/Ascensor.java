@@ -1,8 +1,6 @@
 package modelo;
 
 import java.util.*;
-import modelo.Universidad;
-
 
 public class Ascensor {
     public static final int CAPACIDAD_MAXIMA = 6;

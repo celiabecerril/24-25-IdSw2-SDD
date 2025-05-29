@@ -1,10 +1,6 @@
 package modelo;
 
-
-
 import java.util.Random;
-import modelo.Universidad;
-
 
 public class Persona {
     public static final int MIN_TIEMPO_ESTANCIA = 5;
@@ -74,7 +70,5 @@ public class Persona {
     public boolean haSalido() {
         return estaEnIngreso() && haCumplidoTiempo() && noQuiereSalir();
     }
-
-  
 
 }

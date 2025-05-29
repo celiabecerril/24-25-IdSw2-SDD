@@ -50,8 +50,7 @@ public class Mundo {
             Planta plantaIngreso = universidad.getPlantas().get(Universidad.INGRESO);
             plantaIngreso.personaEsperaAscensor(persona);
             universidad.getControlAscensor().procesarLlamada(
-                new Llamada(Universidad.INGRESO, persona.getPlantaDestino(), persona)
-            );
+                    new Llamada(Universidad.INGRESO, persona.getPlantaDestino(), persona));
             universidad.incrementarTotalPersonasIngresadas();
         }
     }

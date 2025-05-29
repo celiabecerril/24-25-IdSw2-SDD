@@ -29,8 +29,8 @@ public class ControlAscensor {
         }
 
         Ascensor elegido = ascensores.stream()
-            .min(Comparator.comparingInt(a -> Math.abs(a.getPlantaActual() - origen)))
-            .orElse(ascensores.get(0));
+                .min(Comparator.comparingInt(a -> Math.abs(a.getPlantaActual() - origen)))
+                .orElse(ascensores.get(0));
 
         if (!elegido.tieneLlamadaPara(p)) {
             elegido.atenderLlamada(llamada);

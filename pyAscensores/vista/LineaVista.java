@@ -5,7 +5,6 @@ import java.util.List;
 import modelo.Ascensor;
 import modelo.Planta;
 
-
 public class LineaVista {
     public static String formatearLinea(Planta planta, List<Ascensor> ascensores) {
         StringBuilder sb = new StringBuilder();
@@ -25,4 +24,3 @@ public class LineaVista {
         return cantidad > 0 ? "__" + cantidad + "__" : "_____";
     }
 }
-
