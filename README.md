@@ -1,4 +1,4 @@
-# 🚀 Proyecto **pyAscensores**More actions
+# 🚀 Proyecto **SimuladorAscensores**
 
 Simulación de ascensores en una universidad, gestionando la llegada de personas, colas de espera, movimientos de ascensores y visualización por consola.
 
@@ -7,31 +7,31 @@ Simulación de ascensores en una universidad, gestionando la llegada de personas
 ## 📂 Estructura de Clases
 
 - **Universidad**  
-  Coordina generación de llegadas, gestión de estancias y control de ascensores.
+  Coordina la entrada de personas, su estancia en las plantas, y la operación de los ascensores. Gestiona el estado global.
 
 - **Planta**  
-  Representa cada planta del edificio, con colas de personas en espera (`esperando`) y personas dentro (`enPlanta`).
+  Representa cada nivel del edificio. Administra colas de espera y personas dentro realizando actividades.
 
 - **Persona**  
-  Modelo de usuario con destino, tiempo de estancia y llamadas internas.
+  Usuario que conoce su planta destino desde su creación. Tiene un tiempo de estancia limitado y lógica para entrar, esperar y salir del edificio.
 
 - **Llamada**  
-  Petición de uso de ascensor: origen de la solicitud y referencia a la persona.
+  Solicitud de uso del ascensor generada por una persona. Incluye planta origen, destino y la persona que la emite.
 
 - **Ascensor**  
-  Simula un ascensor con capacidad limitada. Gestiona llamadas, pasajeros y movimiento.
+  Vehículo que transporta personas entre plantas. Atiende llamadas, recoge y deja personas según capacidad y prioridad.
 
 - **Tiempo**  
-  Reloj de simulación (día, hora, minuto). Avanza el tiempo y valida ventanas de entrada.
+  Controlador horario del sistema. Avanza minuto a minuto y define si la universidad está abierta o cerrada.
 
 - **ControlAscensor**  
-  Asigna llamadas a ascensores y dispara su movimiento.
+  Asigna llamadas a los ascensores más cercanos y gestiona su movimiento. Considera ventanas de evacuación.
 
 - **Mundo** / **Main**  
-  Bucle principal que avanza el reloj y empieza la simulación.
+  Punto de entrada de la simulación. Inicializa los objetos principales y ejecuta el bucle temporal del sistema.
 
 - **ConsolaVista**, **LineaVista**, **RepresentadorPlanta**  
-  Clases para representar el estado actual en consola.
+  Clases que muestran el estado de la universidad y sus componentes a través de la consola, planta por planta.
 
 ---
 
@@ -53,9 +53,19 @@ Simulación de ascensores en una universidad, gestionando la llegada de personas
 
 ## 🔄 Diagramas de Estados
 
-| Entidad  | Imagen                                                                                  | Código PlantUML                                                                                   |
-|----------|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
-| **Persona**  | ![Estados Persona](images/MdD/DiagramaEstados/DiagramaEstadosPersona.svg)         | [📖 modelo_estados_persona.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosPersona.puml)      |
-| **Llamada**  | ![Estados Llamada](images/MdD/DiagramaEstados/DiagramaDeEstadosLlamada.svg)         | [📖 modelo_estados_llamada.puml](modelosUML/MdD/DiagramaEstados/DiagramaDeEstadosLlamada.puml)      |
-| **Planta**   | ![Estados Planta](images/MdD/DiagramaEstados/DiagramaEstadosPlanta.svg)           | [📖 modelo_estados_planta.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosPlanta.puml)        |
-| **Ascensor** | ![Estados Ascensor](images/MdD/DiagramaEstados/DiagramaEstadosAscensor.svg)       | [📖 modelo_estados_ascensor.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosAscensor.puml)    |
+| Entidad      | Imagen                                                                                  | Código PlantUML                                                                                       |
+|--------------|-----------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| **Persona**  | ![Estados Persona](images/MdD/DiagramaEstados/DiagramaEstadosPersona.svg)              | [📖 modelo_estados_persona.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosPersona.puml)         |
+| **Llamada**  | ![Estados Llamada](images/MdD/DiagramaEstados/DiagramaDeEstadosLlamada.svg)            | [📖 modelo_estados_llamada.puml](modelosUML/MdD/DiagramaEstados/DiagramaDeEstadosLlamada.puml)       |
+| **Planta**   | ![Estados Planta](images/MdD/DiagramaEstados/DiagramaEstadosPlanta.svg)                | [📖 modelo_estados_planta.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosPlanta.puml)           |
+| **Ascensor** | ![Estados Ascensor](images/MdD/DiagramaEstados/DiagramaEstadosAscensor.svg)            | [📖 modelo_estados_ascensor.puml](modelosUML/MdD/DiagramaEstados/DiagramaEstadosAscensor.puml)       |
+
+---
+
+## ✅ Lógica de Finalización
+
+La simulación termina cuando:
+- La hora del sistema alcanza las **21:00**, cerrando el acceso al edificio.
+- **No quedan personas** dentro de ninguna planta ni esperando ni en ascensores.
+- Todos los ascensores se vacían y el sistema entra en estado de reposo.
+
