@@ -1,11 +1,13 @@
 @startuml
 ' Diagrama de Estados: Llamada
 hide empty description
+skinparam stateFontSize 12
 
-[*] --> Creando
+[*] --> Creada : nueva llamada
 
-Creando --> Encolando : procesar llamada
-Encolando --> Asignando : llamada asignada a un ascensor
-Asignando --> Atendiendo : ascensor llega al origen
-Atendiendo --> [*] : persona aborda y llamada finaliza
+Creada --> Asignada : añadida al ascensor
+Asignada --> EnEspera : en cola del ascensor
+EnEspera --> Atendida : ascensor llega y recoge a la persona
+Atendida --> [*] : se elimina la llamada
+
 @enduml
